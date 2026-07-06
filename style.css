@@ -1,0 +1,180 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  color: #1f2937;
+  background-color: #f4f7fb;
+}
+
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 30px;
+  background-color: #0f172a;
+  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.2);
+}
+
+.navbar a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 16px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  transition: 0.3s ease;
+}
+
+.navbar a:hover {
+  background-color: #38bdf8;
+  color: #0f172a;
+  text-decoration: none;
+}
+
+.container {
+  width: 90%;
+  max-width: 1000px;
+  margin: 30px auto;
+}
+
+.hero,
+.section,
+.contact-card {
+  background-color: #ffffff;
+  padding: 30px;
+  margin-bottom: 24px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+.hero {
+  background: linear-gradient(135deg, #111827, #2563eb);
+  color: #ffffff;
+  text-align: center;
+}
+
+.hero h1 {
+  color: #ffffff;
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 1.05rem;
+}
+
+h2,
+h3 {
+  color: #0f172a;
+  margin-top: 0;
+}
+
+p {
+  text-align: justify;
+}
+
+.skills-list,
+.projects-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 0;
+  list-style: none;
+}
+
+.skills-list li,
+.projects-list li {
+  background-color: #e0f2fe;
+  padding: 10px 14px;
+  border-radius: 999px;
+  color: #0f172a;
+}
+
+.projects-list a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.projects-list a:hover {
+  text-decoration: underline;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #dbe3ec;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+th,
+td {
+  padding: 14px;
+  border: 1px solid #dbe3ec;
+  text-align: left;
+}
+
+th {
+  background-color: #eff6ff;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 520px;
+}
+
+input,
+textarea,
+button {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+textarea {
+  height: 120px;
+  resize: vertical;
+}
+
+button {
+  background-color: #2563eb;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+button:hover {
+  background-color: #1d4ed8;
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .container {
+    width: 95%;
+  }
+
+  .hero,
+  .section,
+  .contact-card {
+    padding: 20px;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+}

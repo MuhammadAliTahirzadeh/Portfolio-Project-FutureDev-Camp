@@ -4,92 +4,95 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Şəxsi Portfolio</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div>
-      <div><a href="">Ana Səhifə</a></div>
-      <div><a href="">Haqqımda</a></div>
-      <div><a href="">Əlaqə</a></div>
+    <nav class="navbar">
+      <a href="#home">Ana Səhifə</a>
+      <a href="#about">Haqqımda</a>
+      <a href="#contact">Əlaqə</a>
+    </nav>
+
+    <div class="container">
+      <section id="home" class="hero">
+        <h1>Məhəmməd Əli Tahirzadə</h1>
+        <p>
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Error tempore
+          officiis, deleniti eaque dolorum nihil fugiat ut quibusdam. Id sequi nihil
+          totam debitis vitae quasi? Necessitatibus repellat eveniet esse, obcaecati
+          aperiam mollitia voluptate ratione tempore? Ea illo quibusdam mollitia
+          perspiciatis libero? Tempore nesciunt et incidunt nobis earum, dicta
+          distinctio minima?
+        </p>
+      </section>
+
+      <section id="about" class="section">
+        <h2>Haqqımda</h2>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima incidunt
+          ipsum distinctio itaque. Ab sint facilis, in nesciunt laborum aperiam!
+          Nesciunt nihil adipisci est magnam quisquam ratione illum dolorum vero,
+          officia harum et ipsa amet pariatur dicta libero aliquid? Deleniti, odit
+          sequi! Atque optio eveniet porro molestiae adipisci repudiandae, aut eum
+          minus voluptas est, at, quos facilis quisquam nemo magni tenetur laborum
+          facere nobis dignissimos nulla eius beatae ratione sunt ipsum. Fuga
+          accusantium sapiente at porro hic cupiditate non? Totam tenetur maiores
+          sint amet suscipit asperiores facilis labore non velit possimus blanditiis
+          magnam laboriosam excepturi quidem repudiandae, harum quibusdam deleniti!
+        </p>
+
+        <h3>Bacarıqlarım</h3>
+        <ul class="skills-list">
+          <li>HTML</li>
+          <li>CSS</li>
+          <li>JavaScript</li>
+          <li>React</li>
+          <li>UI/UX</li>
+        </ul>
+
+        <h3>Təhsilim</h3>
+        <table>
+          <tr>
+            <th>University of Economics</th>
+            <th>Al Mustafa International University</th>
+          </tr>
+          <tr>
+            <td>
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ducimus
+              autem cupiditate aperiam, tempore accusantium temporibus sequi
+              voluptatibus a praesentium itaque deleniti repudiandae doloribus earum
+              nisi adipisci porro quasi minus deserunt.
+            </td>
+            <td>
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illo eveniet
+              quaerat neque vero iste. Molestias, fugiat et fugit ipsum illum, nisi
+              harum veniam obcaecati sint ullam nam ex necessitatibus doloremque.
+            </td>
+          </tr>
+        </table>
+
+        <h3>Layihələrim</h3>
+        <ul class="projects-list">
+          <li><a href="#">Layihə 1</a></li>
+          <li><a href="#">Layihə 2</a></li>
+          <li><a href="#">Layihə 3</a></li>
+          <li><a href="#">Layihə 4</a></li>
+        </ul>
+      </section>
+
+      <section id="contact" class="contact-card">
+        <h2>Əlaqə</h2>
+        <form action="">
+          <input placeholder="Adınızı daxil edin" type="text" name="" id="" />
+          <input placeholder="Emailinizi daxil edin" type="email" name="" id="" />
+          <textarea
+            placeholder="Göndərmək istədiyiniz mesajı daxil edin"
+            name=""
+            id=""
+          ></textarea>
+          <button type="submit">Göndər</button>
+        </form>
+      </section>
     </div>
-    <h1>Məhəmməd Əli Tahirzadə</h1>
-    <p>
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Error tempore
-      officiis, deleniti eaque dolorum nihil fugiat ut quibusdam. Id sequi nihil
-      totam debitis vitae quasi? Necessitatibus repellat eveniet esse, obcaecati
-      aperiam mollitia voluptate ratione tempore? Ea illo quibusdam mollitia
-      perspiciatis libero? Tempore nesciunt et incidunt nobis earum, dicta
-      distinctio minima?
-    </p>
-
-    <h2>Haqqımda</h2>
-
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima incidunt
-      ipsum distinctio itaque. Ab sint facilis, in nesciunt laborum aperiam!
-      Nesciunt nihil adipisci est magnam quisquam ratione illum dolorum vero,
-      officia harum et ipsa amet pariatur dicta libero aliquid? Deleniti, odit
-      sequi! Atque optio eveniet porro molestiae adipisci repudiandae, aut eum
-      minus voluptas est, at, quos facilis quisquam nemo magni tenetur laborum
-      facere nobis dignissimos nulla eius beatae ratione sunt ipsum. Fuga
-      accusantium sapiente at porro hic cupiditate non? Totam tenetur maiores
-      sint amet suscipit asperiores facilis labore non velit possimus blanditiis
-      magnam laboriosam excepturi quidem repudiandae, harum quibusdam deleniti!
-    </p>
-
-    <h3>Bacarıqlarım</h3>
-    <ul>
-      <li>Lorem.</li>
-      <li>Lorem.</li>
-      <li>Lorem.</li>
-      <li>Lorem.</li>
-      <li>Lorem.</li>
-    </ul>
-    <h3>Təhsilim</h3>
-    <table border="1">
-      <tr>
-        <th>University of Economics</th>
-        <th>Al Mustafa International University</th>
-      </tr>
-      <tr>
-        <td>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ducimus
-          autem cupiditate aperiam, tempore accusantium temporibus sequi
-          voluptatibus a praesentium itaque deleniti repudiandae doloribus earum
-          nisi adipisci porro quasi minus deserunt.
-        </td>
-        <td>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illo eveniet
-          quaerat neque vero iste. Molestias, fugiat et fugit ipsum illum, nisi
-          harum veniam obcaecati sint ullam nam ex necessitatibus doloremque.
-        </td>
-      </tr>
-    </table>
-    <h3>Layihələrim</h3>
-    <ul>
-      <li><a href="#">Layihə</a></li>
-      <li><a href="#">Layihə</a></li>
-      <li><a href="#">Layihə</a></li>
-      <li><a href="#">Layihə</a></li>
-    </ul>
-
-    <h2>Əlaqə</h2>
-    <form action="">
-      <input placeholder="Adınızı daxil edin" type="text" name="" id="" />
-      <br />
-      <br />
-
-      <input placeholder="Emailinizi daxil edin" type="email" name="" id="" />
-      <br />
-      <br />
-      <textarea
-        placeholder="Göndərmək istədiyiniz mesajı daxil edin"
-        name=""
-        id=""
-      ></textarea>
-      <br />
-      <br />
-
-      <button>Göndər</button>
-    </form>
   </body>
 </html>
