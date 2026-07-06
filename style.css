@@ -120,6 +120,46 @@ th {
   background-color: #eff6ff;
 }
 
+.education-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.education-card {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 18px;
+  text-align: center;
+  min-width: 280px;
+}
+
+.education-card img {
+  max-width: 120px;
+  max-height: 100px;
+  object-fit: contain;
+  margin: 0 auto 14px;
+  display: block;
+}
+
+.education-card h4 {
+  margin: 0 0 10px;
+  font-size: 0.96rem;
+  color: #0f172a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.education-card p {
+  margin: 0;
+  color: #334155;
+  font-size: 0.96rem;
+  line-height: 1.5;
+}
+
 form {
   display: flex;
   flex-direction: column;
