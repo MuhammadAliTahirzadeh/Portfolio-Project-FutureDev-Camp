@@ -7,29 +7,48 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <div class="scroll-progress" id="scrollProgress"></div>
+
     <nav class="navbar">
-      <a href="#home">Ana Səhifə</a>
-      <a href="#about">Haqqımda</a>
-      <a href="#contact">Əlaqə</a>
+      <a class="brand" href="#home">Muhammad Ali Tahirzadeh</a>
+
+      <div class="nav-links">
+        <a href="#home">Ana Səhifə</a>
+        <a href="#about">Haqqımda</a>
+        <a href="#skills">Bacarıqlar</a>
+        <a href="#education">Təhsil</a>
+        <a href="#projects">Layihələrim</a>
+      </div>
+
+      <div class="nav-actions">
+        <a href="#contact" class="contact-btn">Əlaqə</a>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch theme">🌙</button>
+        <button class="nav-toggle" id="navToggle" type="button" aria-label="Toggle navigation">☰</button>
+      </div>
     </nav>
 
     <div class="container">
-      <section id="home" class="hero">
-        <h1>Məhəmməd Əli Tahirzadə</h1>
+      <section id="home" class="hero reveal">
+        <h1>Muhammad Ali Tahirzadeh</h1>
         <p>
           I am pursuing a career in software engineering and continuously
           improving my skills in software development.
         </p>
+        <p class="typing-line">
+          Mən <span id="typingText">Developer</span>
+        </p>
       </section>
 
-      <section id="about" class="section">
+      <section id="about" class="section reveal">
         <h2>Haqqımda</h2>
         <p>
           I am from Azerbaijan and I build real web projects. Currently,
           I am focused on artificial intelligence and backend development.
         </p>
+      </section>
 
-        <h3>Bacarıqlarım</h3>
+      <section id="skills" class="section reveal">
+        <h2>Bacarıqlarım</h2>
         <ul class="skills-list">
           <li>HTML</li>
           <li>CSS</li>
@@ -38,8 +57,10 @@
           <li>Artificial Intelligence</li>
           <li>SQL</li>
         </ul>
+      </section>
 
-        <h3>Təhsilim</h3>
+      <section id="education" class="section reveal">
+        <h2>Təhsilim</h2>
         <div class="education-grid">
           <div class="education-card">
             <img src="Logos/UNEC-logo-ENG-.png" alt="UNEC Logo" />
@@ -62,8 +83,10 @@
             <p>Full-Stack Development</p>
           </div>
         </div>
+      </section>
 
-        <h3>Layihələrim</h3>
+      <section id="projects" class="section reveal">
+        <h2>Layihələrim</h2>
         <ul class="projects-list">
           <li><a href="#">Layihə 1</a></li>
           <li><a href="#">Layihə 2</a></li>
@@ -72,24 +95,18 @@
         </ul>
       </section>
 
-      <section id="contact" class="contact-card">
+      <section id="contact" class="contact-card reveal">
         <h2>Əlaqə</h2>
-        <form action="">
-          <input placeholder="Adınızı daxil edin" type="text" name="" id="" />
-          <input
-            placeholder="Emailinizi daxil edin"
-            type="email"
-            name=""
-            id=""
-          />
-          <textarea
-            placeholder="Mesajınızı daxil edin"
-            name=""
-            id=""
-          ></textarea>
+        <form id="contactForm">
+          <input placeholder="Adınızı daxil edin" type="text" name="name" />
+          <input placeholder="Emailinizi daxil edin" type="email" name="email" />
+          <textarea placeholder="Mesajınızı daxil edin" name="message"></textarea>
           <button type="submit">Göndər</button>
+          <p id="formMessage" class="form-message" aria-live="polite"></p>
         </form>
       </section>
     </div>
+
+    <script src="script.js"></script>
   </body>
 </html>

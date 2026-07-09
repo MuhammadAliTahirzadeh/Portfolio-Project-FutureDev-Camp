@@ -6,9 +6,7 @@ body {
   line-height: 1.7;
   color: #1f2937;
   background-color: #f4f7fb;
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body.dark {
@@ -199,26 +197,6 @@ body.dark .projects-list a {
   color: #7dd3fc;
 }
 
-body.dark table,
-body.dark th,
-body.dark td {
-  border-color: #334155;
-  color: #e2e8f0;
-}
-
-body.dark th {
-  background-color: #1e293b;
-}
-
-body.dark .education-card {
-  background-color: #1f2937;
-  border-color: #334155;
-}
-
-body.dark .education-card h4 {
-  color: #f8fafc;
-}
-
 body.dark input,
 body.dark textarea {
   background-color: #0f172a;
@@ -298,25 +276,6 @@ p {
 
 .projects-list a:hover {
   text-decoration: underline;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  border: 1px solid #dbe3ec;
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-th,
-td {
-  padding: 14px;
-  border: 1px solid #dbe3ec;
-  text-align: left;
-}
-
-th {
-  background-color: #eff6ff;
 }
 
 .education-grid {
@@ -464,10 +423,5 @@ button:hover {
   .section,
   .contact-card {
     padding: 20px;
-  }
-
-  table {
-    display: block;
-    overflow-x: auto;
   }
 }

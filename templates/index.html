@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section id="home" class="hero reveal">
+  <h1>Muhammad Ali Tahirzadeh</h1>
+  <p>
+    I am pursuing a career in software engineering and continuously improving my skills in software development.
+  </p>
+  <p class="typing-line">
+    Mən <span id="typingText">Developer</span>
+  </p>
+</section>
+
+<section id="about" class="section reveal">
+  <h2>Haqqımda</h2>
+  <p>
+    I am from Azerbaijan and I build real web projects. Currently, I am focused on artificial intelligence and backend development.
+  </p>
+</section>
+
+<section id="skills" class="section reveal">
+  <h2>Bacarıqlarım</h2>
+  <ul class="skills-list">
+    <li>HTML</li>
+    <li>CSS</li>
+    <li>JavaScript</li>
+    <li>UI/UX</li>
+    <li>Artificial Intelligence</li>
+    <li>SQL</li>
+  </ul>
+</section>
+
+<section id="education" class="section reveal">
+  <h2>Təhsilim</h2>
+  <div class="education-grid">
+    <div class="education-card">
+      <img src="{{ url_for('static', filename='logos/UNEC-logo-ENG-.png') }}" alt="UNEC Logo" />
+      <h4>University of Economics</h4>
+      <p>Bachelor's in Information Technology, 2024–2028</p>
+    </div>
+    <div class="education-card">
+      <img src="{{ url_for('static', filename='logos/Al Mustafa University.jpg') }}" alt="Al Mustafa International University Logo" />
+      <h4>Al Mustafa University</h4>
+      <p>Quran & Hadith sciences, 2024–2027</p>
+    </div>
+    <div class="education-card">
+      <img src="{{ url_for('static', filename='logos/codersazerbaijan_logo.jpg') }}" alt="Coders Azerbaijan Logo" />
+      <h4>Coders Azerbaijan</h4>
+      <p>Modern Web Development with AI</p>
+    </div>
+    <div class="education-card">
+      <img src="{{ url_for('static', filename='logos/CorexLogo.jpg') }}" alt="Corex Logo" />
+      <h4>Corex</h4>
+      <p>Full-Stack Development</p>
+    </div>
+  </div>
+</section>
+
+<section id="projects" class="section reveal">
+  <h2>Layihələrim</h2>
+  <ul class="projects-list">
+    <li><a href="{{ url_for('project_detail', project_slug='portfolio') }}">Portfolio Website</a></li>
+    <li><a href="{{ url_for('project_detail', project_slug='backend') }}">Basic Backend App</a></li>
+  </ul>
+</section>
+
+<section id="contact" class="contact-card reveal">
+  <h2>Əlaqə</h2>
+  <form id="contactForm">
+    <input placeholder="Adınızı daxil edin" type="text" name="name" />
+    <input placeholder="Emailinizi daxil edin" type="email" name="email" />
+    <textarea placeholder="Mesajınızı daxil edin" name="message"></textarea>
+    <button type="submit">Göndər</button>
+    <p id="formMessage" class="form-message" aria-live="polite"></p>
+  </form>
+</section>
+{% endblock %}

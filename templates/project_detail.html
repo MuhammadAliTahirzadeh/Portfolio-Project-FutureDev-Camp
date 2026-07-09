@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="section reveal">
+  <h2>{{ project.title }}</h2>
+  <p>{{ project.summary }}</p>
+  <p>{{ project.description }}</p>
+  <p>Route source: {{ source }}</p>
+  <a class="contact-btn" href="{{ url_for('home') }}">Back to portfolio</a>
+</section>
+{% endblock %}
