@@ -58,10 +58,24 @@
 
 <section id="projects" class="section reveal">
   <h2>Layihələrim</h2>
-  <ul class="projects-list">
-    <li><a href="{{ url_for('project_detail', project_slug='portfolio') }}">Portfolio Website</a></li>
-    <li><a href="{{ url_for('project_detail', project_slug='backend') }}">Basic Backend App</a></li>
+  <ul class="projects-list" id="projectList">
+    {% for project in projects %}
+    <li>
+      <a href="{{ url_for('project_detail', project_id=project.id) }}">{{ project.title }}</a>
+    </li>
+    {% endfor %}
   </ul>
+
+  <div class="admin-panel">
+    <h3>Proje əlavə / idarə et</h3>
+    <form id="projectForm" class="inline-form">
+      <input type="text" name="title" placeholder="Proje adı" required />
+      <input type="text" name="summary" placeholder="Qısa açıqlama" required />
+      <textarea name="description" placeholder="Detay" required></textarea>
+      <button type="submit">Proje əlavə et</button>
+    </form>
+    <p id="projectMessage" class="form-message" aria-live="polite"></p>
+  </div>
 </section>
 
 <section id="contact" class="contact-card reveal">
@@ -73,5 +87,10 @@
     <button type="submit">Göndər</button>
     <p id="formMessage" class="form-message" aria-live="polite"></p>
   </form>
+</section>
+
+<section class="section reveal">
+  <h2>Mesajlar</h2>
+  <div id="messageList" class="message-list"></div>
 </section>
 {% endblock %}

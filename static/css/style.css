@@ -369,6 +369,62 @@ button:hover {
   color: #dc2626;
 }
 
+.admin-panel {
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid #dbeafe;
+  border-radius: 16px;
+  background: #f8fafc;
+}
+
+.inline-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.inline-form input,
+.inline-form textarea {
+  width: 100%;
+}
+
+.message-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.message-card {
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid #dbeafe;
+  background: #ffffff;
+}
+
+.message-card strong {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.message-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.message-actions button {
+  width: auto;
+  padding: 8px 12px;
+  font-size: 0.95rem;
+}
+
+body.dark .admin-panel,
+body.dark .message-card {
+  background: #111827;
+  border-color: rgba(125, 211, 252, 0.2);
+}
+
 @media (max-width: 768px) {
   .navbar {
     margin: 8px 8px;

@@ -70,6 +70,11 @@ window.addEventListener('scroll', () => {
   });
 });
 
+const projectForm = document.getElementById('projectForm');
+const projectMessage = document.getElementById('projectMessage');
+const projectList = document.getElementById('projectList');
+const messageList = document.getElementById('messageList');
+
 const revealItems = document.querySelectorAll('.reveal');
 const revealObserver = new IntersectionObserver(
   (entries) => {
@@ -115,29 +120,138 @@ function typeLoop() {
 
 typeLoop();
 
-if (contactForm) {
-  contactForm.addEventListener('submit', (event) => {
-  event.preventDefault();
+async function postJson(url, data) {
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+  return response.json();
+}
 
-  const name = contactForm.querySelector('input[type="text"]').value.trim();
-  const email = contactForm.querySelector('input[type="email"]').value.trim();
-  const message = contactForm.querySelector('textarea').value.trim();
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+async function updateJson(url, data, method = 'PUT') {
+  const response = await fetch(url, {
+    method,
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+  return response.json();
+}
 
-  formMessage.className = 'form-message error';
+async function deleteJson(url) {
+  const response = await fetch(url, { method: 'DELETE' });
+  return response.json();
+}
 
-  if (!name || !email || !message) {
-    formMessage.textContent = 'Zəhmət olmasa bütün sahələri doldurun.';
-    return;
-  }
-
-  if (!emailPattern.test(email)) {
-    formMessage.textContent = 'Zəhmət olmasa etibarlı bir email daxil edin.';
-    return;
-  }
-
-    formMessage.className = 'form-message success';
-    formMessage.textContent = 'Mesajınız uğurla göndərildi. Tezliklə sizinlə əlaqə saxlayacağam.';
-    contactForm.reset();
+function renderProjects(projects) {
+  if (!projectList) return;
+  projectList.innerHTML = '';
+  projects.forEach((project) => {
+    const item = document.createElement('li');
+    item.innerHTML = `<a href="/project/${project.id}">${project.title}</a>`;
+    projectList.appendChild(item);
   });
 }
+
+function renderMessages(messages) {
+  if (!messageList) return;
+  if (!messages.length) {
+    messageList.innerHTML = '<p>Henüz mesaj yoxdur.</p>';
+    return;
+  }
+
+  messageList.innerHTML = messages
+    .map(
+      (message) => `
+      <article class="message-card">
+        <strong>${message.name} · ${message.email}</strong>
+        <p>${message.message}</p>
+        <p><small>Status: ${message.status}</small></p>
+        <div class="message-actions">
+          <button data-action="update" data-id="${message.id}">Güncelle</button>
+          <button data-action="delete" data-id="${message.id}">Sil</button>
+        </div>
+      </article>
+    `
+    )
+    .join('');
+}
+
+async function loadMessages() {
+  const response = await fetch('/api/messages');
+  const messages = await response.json();
+  renderMessages(messages);
+}
+
+async function loadProjects() {
+  const response = await fetch('/api/projects');
+  const projects = await response.json();
+  renderProjects(projects);
+}
+
+if (contactForm) {
+  contactForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const name = contactForm.querySelector('input[type="text"]').value.trim();
+    const email = contactForm.querySelector('input[type="email"]').value.trim();
+    const message = contactForm.querySelector('textarea').value.trim();
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    formMessage.className = 'form-message error';
+
+    if (!name || !email || !message) {
+      formMessage.textContent = 'Zəhmət olmasa bütün sahələri doldurun.';
+      return;
+    }
+
+    if (!emailPattern.test(email)) {
+      formMessage.textContent = 'Zəhmət olmasa etibarlı bir email daxil edin.';
+      return;
+    }
+
+    const result = await postJson('/api/messages', { name, email, message });
+    formMessage.className = `form-message ${result.success ? 'success' : 'error'}`;
+    formMessage.textContent = result.message || 'İşlem tamamlandı.';
+    contactForm.reset();
+    loadMessages();
+  });
+}
+
+if (projectForm) {
+  projectForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const formData = new FormData(projectForm);
+    const payload = Object.fromEntries(formData.entries());
+    const result = await postJson('/api/projects', payload);
+    projectMessage.className = `form-message ${result.success ? 'success' : 'error'}`;
+    projectMessage.textContent = result.message || 'İşlem tamamlandı.';
+    projectForm.reset();
+    loadProjects();
+  });
+}
+
+messageList?.addEventListener('click', async (event) => {
+  const button = event.target.closest('button');
+  if (!button) return;
+
+  const id = button.dataset.id;
+  const action = button.dataset.action;
+
+  if (action === 'delete') {
+    const result = await deleteJson(`/api/messages/${id}`);
+    alert(result.message || 'Mesaj silindi.');
+    loadMessages();
+  }
+
+  if (action === 'update') {
+    const updatedText = prompt('Mesajı güncelleyin:', '');
+    if (!updatedText) return;
+    const result = await updateJson(`/api/messages/${id}`, { message: updatedText, status: 'updated' });
+    alert(result.message || 'Mesaj güncellendi.');
+    loadMessages();
+  }
+});
+
+loadProjects();
+loadMessages();
