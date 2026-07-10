@@ -215,28 +215,19 @@ function typeLoop() {
 
 typeLoop();
 
-async function postJson(url, data) {
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  });
+async function sendJson(url, { method = 'GET', data } = {}) {
+  const options = { method };
+  if (data !== undefined) {
+    options.headers = { 'Content-Type': 'application/json' };
+    options.body = JSON.stringify(data);
+  }
+  const response = await fetch(url, options);
   return response.json();
 }
 
-async function updateJson(url, data, method = 'PUT') {
-  const response = await fetch(url, {
-    method,
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  });
-  return response.json();
-}
-
-async function deleteJson(url) {
-  const response = await fetch(url, { method: 'DELETE' });
-  return response.json();
-}
+const postJson = (url, data) => sendJson(url, { method: 'POST', data });
+const updateJson = (url, data, method = 'PUT') => sendJson(url, { method, data });
+const deleteJson = (url) => sendJson(url, { method: 'DELETE' });
 
 function escapeHtml(text) {
   const div = document.createElement('div');

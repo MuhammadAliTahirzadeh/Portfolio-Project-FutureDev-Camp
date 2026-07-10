@@ -42,6 +42,19 @@ def load_env_file() -> None:
 load_env_file()
 
 
+def json_fields(*names):
+    data = request.get_json(silent=True) or {}
+    return {name: (data.get(name) or "").strip() for name in names}
+
+
+def error_response(message, status=400):
+    return jsonify({"success": False, "message": message}), status
+
+
+def success_response(message, **extra):
+    return jsonify({"success": True, "message": message, **extra})
+
+
 def get_mail_config():
     return {
         "server": os.getenv("MAIL_SERVER", "smtp.gmail.com"),
@@ -116,13 +129,11 @@ def messages_api():
     if request.method == "GET":
         return jsonify(get_messages())
 
-    data = request.get_json(silent=True) or {}
-    name = (data.get("name") or "").strip()
-    email = (data.get("email") or "").strip()
-    message_text = (data.get("message") or "").strip()
+    fields = json_fields("name", "email", "message")
+    name, email, message_text = fields["name"], fields["email"], fields["message"]
 
     if not all([name, email, message_text]):
-        return jsonify({"success": False, "message": "Please fill all fields."}), 400
+        return error_response("Please fill all fields.")
 
     message_id = create_message(name, email, message_text)
 
@@ -140,7 +151,7 @@ def messages_api():
             }
         ), 500
 
-    return jsonify({"success": True, "message": "Message saved and sent.", "id": message_id})
+    return success_response("Message saved and sent.", id=message_id)
 
 
 @app.route("/api/messages/<int:message_id>", methods=["PUT", "DELETE"])
@@ -150,12 +161,12 @@ def message_detail_api(message_id: int):
         text = (data.get("message") or "").strip()
         status = (data.get("status") or "new").strip()
         if not text:
-            return jsonify({"success": False, "message": "Message text is required."}), 400
+            return error_response("Message text is required.")
         update_message(message_id, text, status)
-        return jsonify({"success": True, "message": "Message updated."})
+        return success_response("Message updated.")
 
     delete_message(message_id)
-    return jsonify({"success": True, "message": "Message deleted."})
+    return success_response("Message deleted.")
 
 
 @app.route("/api/projects", methods=["GET", "POST"])
@@ -163,32 +174,28 @@ def projects_api():
     if request.method == "GET":
         return jsonify(get_projects())
 
-    data = request.get_json(silent=True) or {}
-    title = (data.get("title") or "").strip()
-    summary = (data.get("summary") or "").strip()
-    description = (data.get("description") or "").strip()
+    fields = json_fields("title", "summary", "description")
+    title, summary, description = fields["title"], fields["summary"], fields["description"]
 
     if not all([title, summary, description]):
-        return jsonify({"success": False, "message": "All project fields are required."}), 400
+        return error_response("All project fields are required.")
 
     project_id = create_project(title, summary, description)
-    return jsonify({"success": True, "message": "Project added.", "id": project_id})
+    return success_response("Project added.", id=project_id)
 
 
 @app.route("/api/projects/<int:project_id>", methods=["PUT", "DELETE"])
 def project_detail_api(project_id: int):
     if request.method == "PUT":
-        data = request.get_json(silent=True) or {}
-        title = (data.get("title") or "").strip()
-        summary = (data.get("summary") or "").strip()
-        description = (data.get("description") or "").strip()
+        fields = json_fields("title", "summary", "description")
+        title, summary, description = fields["title"], fields["summary"], fields["description"]
         if not all([title, summary, description]):
-            return jsonify({"success": False, "message": "All project fields are required."}), 400
+            return error_response("All project fields are required.")
         update_project(project_id, title, summary, description)
-        return jsonify({"success": True, "message": "Project updated."})
+        return success_response("Project updated.")
 
     delete_project(project_id)
-    return jsonify({"success": True, "message": "Project deleted."})
+    return success_response("Project deleted.")
 
 
 if __name__ == "__main__":

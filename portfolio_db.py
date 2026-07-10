@@ -11,6 +11,25 @@ def get_connection():
     return conn
 
 
+def query_all(sql, params=()):
+    with get_connection() as conn:
+        rows = conn.execute(sql, params).fetchall()
+        return [dict(row) for row in rows]
+
+
+def query_one(sql, params=()):
+    with get_connection() as conn:
+        row = conn.execute(sql, params).fetchone()
+        return dict(row) if row else None
+
+
+def execute(sql, params=()):
+    with get_connection() as conn:
+        cursor = conn.execute(sql, params)
+        conn.commit()
+        return cursor.lastrowid
+
+
 def init_db():
     with get_connection() as conn:
         conn.executescript(
@@ -60,75 +79,55 @@ def seed_projects():
 
 
 def get_projects():
-    with get_connection() as conn:
-        rows = conn.execute(
-            "SELECT id, title, summary, description, created_at FROM projects ORDER BY id DESC"
-        ).fetchall()
-        return [dict(row) for row in rows]
+    return query_all(
+        "SELECT id, title, summary, description, created_at FROM projects ORDER BY id DESC"
+    )
 
 
 def get_project(project_id):
-    with get_connection() as conn:
-        row = conn.execute(
-            "SELECT id, title, summary, description, created_at FROM projects WHERE id = ?",
-            (project_id,),
-        ).fetchone()
-        return dict(row) if row else None
+    return query_one(
+        "SELECT id, title, summary, description, created_at FROM projects WHERE id = ?",
+        (project_id,),
+    )
 
 
 def create_project(title, summary, description):
-    with get_connection() as conn:
-        cursor = conn.execute(
-            "INSERT INTO projects (title, summary, description) VALUES (?, ?, ?)",
-            (title, summary, description),
-        )
-        conn.commit()
-        return cursor.lastrowid
+    return execute(
+        "INSERT INTO projects (title, summary, description) VALUES (?, ?, ?)",
+        (title, summary, description),
+    )
 
 
 def update_project(project_id, title, summary, description):
-    with get_connection() as conn:
-        conn.execute(
-            "UPDATE projects SET title = ?, summary = ?, description = ? WHERE id = ?",
-            (title, summary, description, project_id),
-        )
-        conn.commit()
+    execute(
+        "UPDATE projects SET title = ?, summary = ?, description = ? WHERE id = ?",
+        (title, summary, description, project_id),
+    )
 
 
 def delete_project(project_id):
-    with get_connection() as conn:
-        conn.execute("DELETE FROM projects WHERE id = ?", (project_id,))
-        conn.commit()
+    execute("DELETE FROM projects WHERE id = ?", (project_id,))
 
 
 def get_messages():
-    with get_connection() as conn:
-        rows = conn.execute(
-            "SELECT id, name, email, message, status, created_at FROM messages ORDER BY id DESC"
-        ).fetchall()
-        return [dict(row) for row in rows]
+    return query_all(
+        "SELECT id, name, email, message, status, created_at FROM messages ORDER BY id DESC"
+    )
 
 
 def create_message(name, email, message):
-    with get_connection() as conn:
-        cursor = conn.execute(
-            "INSERT INTO messages (name, email, message) VALUES (?, ?, ?)",
-            (name, email, message),
-        )
-        conn.commit()
-        return cursor.lastrowid
+    return execute(
+        "INSERT INTO messages (name, email, message) VALUES (?, ?, ?)",
+        (name, email, message),
+    )
 
 
 def update_message(message_id, message_text, status):
-    with get_connection() as conn:
-        conn.execute(
-            "UPDATE messages SET message = ?, status = ? WHERE id = ?",
-            (message_text, status, message_id),
-        )
-        conn.commit()
+    execute(
+        "UPDATE messages SET message = ?, status = ? WHERE id = ?",
+        (message_text, status, message_id),
+    )
 
 
 def delete_message(message_id):
-    with get_connection() as conn:
-        conn.execute("DELETE FROM messages WHERE id = ?", (message_id,))
-        conn.commit()
+    execute("DELETE FROM messages WHERE id = ?", (message_id,))
