@@ -181,6 +181,9 @@ async function loadProjects() {
 
   try {
     const response = await fetch('/api/projects');
+    if (!response.ok) {
+      throw new Error(`Failed to load projects: ${response.status} ${response.statusText}`);
+    }
     const projects = await response.json();
     if (!projects.length) return;
 
@@ -196,8 +199,8 @@ async function loadProjects() {
       `
       )
       .join('');
-  } catch {
-    /* Keep fallback static project cards */
+  } catch (error) {
+    console.error('Could not load projects, keeping static fallback cards.', error);
   }
 }
 
@@ -240,7 +243,8 @@ if (contactForm) {
       formMessage.className = `form-message ${result.success ? 'success' : 'error'}`;
       formMessage.textContent = result.message || 'Request completed.';
       if (result.success) contactForm.reset();
-    } catch {
+    } catch (error) {
+      console.error('Failed to submit contact form.', error);
       formMessage.className = 'form-message error';
       formMessage.textContent = 'Failed to send message. Run the Flask server or try again later.';
     } finally {

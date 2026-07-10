@@ -1,4 +1,5 @@
 import sqlite3
+from contextlib import closing
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -12,7 +13,7 @@ def get_connection():
 
 
 def init_db():
-    with get_connection() as conn:
+    with closing(get_connection()) as conn, conn:
         conn.executescript(
             """
             CREATE TABLE IF NOT EXISTS messages (
@@ -37,7 +38,7 @@ def init_db():
 
 
 def seed_projects():
-    with get_connection() as conn:
+    with closing(get_connection()) as conn, conn:
         count = conn.execute("SELECT COUNT(*) AS count FROM projects").fetchone()["count"]
         if count == 0:
             default_projects = [
@@ -60,7 +61,7 @@ def seed_projects():
 
 
 def get_projects():
-    with get_connection() as conn:
+    with closing(get_connection()) as conn:
         rows = conn.execute(
             "SELECT id, title, summary, description, created_at FROM projects ORDER BY id DESC"
         ).fetchall()
@@ -68,7 +69,7 @@ def get_projects():
 
 
 def get_project(project_id):
-    with get_connection() as conn:
+    with closing(get_connection()) as conn:
         row = conn.execute(
             "SELECT id, title, summary, description, created_at FROM projects WHERE id = ?",
             (project_id,),
@@ -77,7 +78,7 @@ def get_project(project_id):
 
 
 def create_project(title, summary, description):
-    with get_connection() as conn:
+    with closing(get_connection()) as conn, conn:
         cursor = conn.execute(
             "INSERT INTO projects (title, summary, description) VALUES (?, ?, ?)",
             (title, summary, description),
@@ -87,22 +88,22 @@ def create_project(title, summary, description):
 
 
 def update_project(project_id, title, summary, description):
-    with get_connection() as conn:
-        conn.execute(
+    with closing(get_connection()) as conn, conn:
+        cursor = conn.execute(
             "UPDATE projects SET title = ?, summary = ?, description = ? WHERE id = ?",
             (title, summary, description, project_id),
         )
-        conn.commit()
+        return cursor.rowcount
 
 
 def delete_project(project_id):
-    with get_connection() as conn:
-        conn.execute("DELETE FROM projects WHERE id = ?", (project_id,))
-        conn.commit()
+    with closing(get_connection()) as conn, conn:
+        cursor = conn.execute("DELETE FROM projects WHERE id = ?", (project_id,))
+        return cursor.rowcount
 
 
 def get_messages():
-    with get_connection() as conn:
+    with closing(get_connection()) as conn:
         rows = conn.execute(
             "SELECT id, name, email, message, status, created_at FROM messages ORDER BY id DESC"
         ).fetchall()
@@ -110,7 +111,7 @@ def get_messages():
 
 
 def create_message(name, email, message):
-    with get_connection() as conn:
+    with closing(get_connection()) as conn, conn:
         cursor = conn.execute(
             "INSERT INTO messages (name, email, message) VALUES (?, ?, ?)",
             (name, email, message),
@@ -120,15 +121,15 @@ def create_message(name, email, message):
 
 
 def update_message(message_id, message_text, status):
-    with get_connection() as conn:
-        conn.execute(
+    with closing(get_connection()) as conn, conn:
+        cursor = conn.execute(
             "UPDATE messages SET message = ?, status = ? WHERE id = ?",
             (message_text, status, message_id),
         )
-        conn.commit()
+        return cursor.rowcount
 
 
 def delete_message(message_id):
-    with get_connection() as conn:
-        conn.execute("DELETE FROM messages WHERE id = ?", (message_id,))
-        conn.commit()
+    with closing(get_connection()) as conn, conn:
+        cursor = conn.execute("DELETE FROM messages WHERE id = ?", (message_id,))
+        return cursor.rowcount
