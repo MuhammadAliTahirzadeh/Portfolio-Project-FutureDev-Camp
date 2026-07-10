@@ -1,23 +1,36 @@
 const body = document.body;
+const navbar = document.getElementById('navbar');
 const themeToggle = document.getElementById('themeToggle');
 const navToggle = document.getElementById('navToggle');
-const navbar = document.querySelector('.navbar');
 const navLinks = Array.from(document.querySelectorAll('.nav-links a'));
+const progressBar = document.getElementById('scrollProgress');
+const typingText = document.getElementById('typingText');
+const contactForm = document.getElementById('contactForm');
+const formMessage = document.getElementById('formMessage');
+const submitBtn = document.getElementById('submitBtn');
+const footerYear = document.getElementById('footerYear');
+const backToTop = document.getElementById('backToTop');
+const projectForm = document.getElementById('projectForm');
+const projectMessage = document.getElementById('projectMessage');
+const projectList = document.getElementById('projectList');
+const messageList = document.getElementById('messageList');
+
 const getTargetId = (link) => {
   const href = link.getAttribute('href') || '';
   const hashIndex = href.indexOf('#');
   return hashIndex >= 0 ? href.slice(hashIndex + 1) : '';
 };
+
 const sections = navLinks
   .map((link) => {
     const targetId = getTargetId(link);
     return targetId ? document.getElementById(targetId) : null;
   })
   .filter(Boolean);
-const progressBar = document.getElementById('scrollProgress');
-const typingText = document.getElementById('typingText');
-const contactForm = document.getElementById('contactForm');
-const formMessage = document.getElementById('formMessage');
+
+if (footerYear) {
+  footerYear.textContent = new Date().getFullYear();
+}
 
 const savedTheme = localStorage.getItem('portfolio-theme');
 if (savedTheme === 'dark') {
@@ -25,6 +38,7 @@ if (savedTheme === 'dark') {
 }
 
 function updateThemeButton() {
+  if (!themeToggle) return;
   const isDark = body.classList.contains('dark');
   themeToggle.textContent = isDark ? '☀️' : '🌙';
   themeToggle.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
@@ -32,28 +46,47 @@ function updateThemeButton() {
 
 updateThemeButton();
 
-themeToggle.addEventListener('click', () => {
+themeToggle?.addEventListener('click', () => {
   body.classList.toggle('dark');
-  const isDark = body.classList.contains('dark');
-  localStorage.setItem('portfolio-theme', isDark ? 'dark' : 'light');
+  localStorage.setItem('portfolio-theme', body.classList.contains('dark') ? 'dark' : 'light');
   updateThemeButton();
 });
 
-navToggle.addEventListener('click', () => {
-  navbar.classList.toggle('open');
+navToggle?.addEventListener('click', () => {
+  navbar?.classList.toggle('open');
 });
 
 navLinks.forEach((link) => {
-  link.addEventListener('click', () => {
-    navbar.classList.remove('open');
+  link.addEventListener('click', (event) => {
+    const targetId = getTargetId(link);
+    const target = targetId ? document.getElementById(targetId) : null;
+
+    if (target) {
+      event.preventDefault();
+      const offset = 100;
+      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+
+    navbar?.classList.remove('open');
   });
+});
+
+backToTop?.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
 window.addEventListener('scroll', () => {
   const scrollTop = window.scrollY;
   const height = document.documentElement.scrollHeight - window.innerHeight;
   const progress = height > 0 ? scrollTop / height : 0;
-  progressBar.style.transform = `scaleX(${progress})`;
+
+  if (progressBar) {
+    progressBar.style.transform = `scaleX(${progress})`;
+  }
+
+  navbar?.classList.toggle('scrolled', scrollTop > 40);
+  backToTop?.classList.toggle('visible', scrollTop > 400);
 
   let currentSection = sections[0]?.id || '';
 
@@ -64,24 +97,25 @@ window.addEventListener('scroll', () => {
   });
 
   navLinks.forEach((link) => {
-    const targetId = getTargetId(link);
-    const isActive = targetId === currentSection;
-    link.classList.toggle('active', isActive);
+    link.classList.toggle('active', getTargetId(link) === currentSection);
   });
 });
 
-const projectForm = document.getElementById('projectForm');
-const projectMessage = document.getElementById('projectMessage');
-const projectList = document.getElementById('projectList');
-const messageList = document.getElementById('messageList');
-
-const revealItems = document.querySelectorAll('.reveal');
+const revealItems = document.querySelectorAll('.reveal, .reveal-stagger');
 const revealObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
         revealObserver.unobserve(entry.target);
+
+        if (entry.target.classList.contains('skills-grid') || entry.target.closest('#skills')) {
+          animateSkillBars();
+        }
+
+        if (entry.target.querySelector('[data-count]')) {
+          animateCounters(entry.target);
+        }
       }
     });
   },
@@ -90,15 +124,77 @@ const revealObserver = new IntersectionObserver(
 
 revealItems.forEach((item) => revealObserver.observe(item));
 
+const skillObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        animateSkillBars();
+        skillObserver.disconnect();
+      }
+    });
+  },
+  { threshold: 0.2 }
+);
+
+const skillsSection = document.getElementById('skills');
+if (skillsSection) {
+  skillObserver.observe(skillsSection);
+}
+
+function animateSkillBars() {
+  document.querySelectorAll('.skill-item').forEach((item) => {
+    const level = item.dataset.level || '0';
+    const fill = item.querySelector('.skill-fill');
+    if (fill) {
+      fill.style.width = `${level}%`;
+    }
+  });
+}
+
+function animateCounters(container) {
+  container.querySelectorAll('[data-count]').forEach((counter) => {
+    const target = Number(counter.dataset.count);
+    const duration = 1200;
+    const start = performance.now();
+
+    function step(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const value = Math.floor(progress * target);
+      counter.textContent = value;
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
+        counter.textContent = target;
+      }
+    }
+
+    requestAnimationFrame(step);
+  });
+}
+
+const heroStats = document.querySelector('.hero-stats');
+if (heroStats) {
+  const statsObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          animateCounters(entry.target);
+          statsObserver.disconnect();
+        }
+      });
+    },
+    { threshold: 0.5 }
+  );
+  statsObserver.observe(heroStats);
+}
+
 const words = ['Developer', 'AI Enthusiast', 'Problem Solver'];
 let wordIndex = 0;
 let charIndex = 0;
 let isDeleting = false;
 
 function typeLoop() {
-  if (!typingText) {
-    return;
-  }
+  if (!typingText) return;
 
   const currentWord = words[wordIndex];
   typingText.textContent = currentWord.slice(0, charIndex);
@@ -114,8 +210,7 @@ function typeLoop() {
     }
   }
 
-  const speed = isDeleting ? 80 : 120;
-  setTimeout(typeLoop, speed);
+  setTimeout(typeLoop, isDeleting ? 80 : 120);
 }
 
 typeLoop();
@@ -143,20 +238,39 @@ async function deleteJson(url) {
   return response.json();
 }
 
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
 function renderProjects(projects) {
   if (!projectList) return;
-  projectList.innerHTML = '';
-  projects.forEach((project) => {
-    const item = document.createElement('li');
-    item.innerHTML = `<a href="/project/${project.id}">${project.title}</a>`;
-    projectList.appendChild(item);
-  });
+
+  if (!projects.length) {
+    projectList.innerHTML = '<div class="empty-state">No projects yet. Add your first project below.</div>';
+    return;
+  }
+
+  projectList.innerHTML = projects
+    .map(
+      (project) => `
+      <a class="project-card" href="/project/${project.id}">
+        <div class="project-icon">${escapeHtml(project.title.charAt(0))}</div>
+        <h3>${escapeHtml(project.title)}</h3>
+        <p>${escapeHtml(project.summary)}</p>
+        <span class="project-link">View details →</span>
+      </a>
+    `
+    )
+    .join('');
 }
 
 function renderMessages(messages) {
   if (!messageList) return;
+
   if (!messages.length) {
-    messageList.innerHTML = '<p>Henüz mesaj yoxdur.</p>';
+    messageList.innerHTML = '<div class="empty-state">No messages yet.</div>';
     return;
   }
 
@@ -164,12 +278,12 @@ function renderMessages(messages) {
     .map(
       (message) => `
       <article class="message-card">
-        <strong>${message.name} · ${message.email}</strong>
-        <p>${message.message}</p>
-        <p><small>Status: ${message.status}</small></p>
+        <strong>${escapeHtml(message.name)} · ${escapeHtml(message.email)}</strong>
+        <p>${escapeHtml(message.message)}</p>
+        <p><small>Status: ${escapeHtml(message.status)}</small></p>
         <div class="message-actions">
-          <button data-action="update" data-id="${message.id}">Güncelle</button>
-          <button data-action="delete" data-id="${message.id}">Sil</button>
+          <button data-action="update" data-id="${message.id}">Update</button>
+          <button data-action="delete" data-id="${message.id}">Delete</button>
         </div>
       </article>
     `
@@ -178,15 +292,25 @@ function renderMessages(messages) {
 }
 
 async function loadMessages() {
-  const response = await fetch('/api/messages');
-  const messages = await response.json();
-  renderMessages(messages);
+  try {
+    const response = await fetch('/api/messages');
+    const messages = await response.json();
+    renderMessages(messages);
+  } catch {
+    if (messageList) {
+      messageList.innerHTML = '<div class="empty-state">Unable to load messages.</div>';
+    }
+  }
 }
 
 async function loadProjects() {
-  const response = await fetch('/api/projects');
-  const projects = await response.json();
-  renderProjects(projects);
+  try {
+    const response = await fetch('/api/projects');
+    const projects = await response.json();
+    renderProjects(projects);
+  } catch {
+    /* Server-side rendered projects remain visible */
+  }
 }
 
 if (contactForm) {
@@ -201,20 +325,37 @@ if (contactForm) {
     formMessage.className = 'form-message error';
 
     if (!name || !email || !message) {
-      formMessage.textContent = 'Zəhmət olmasa bütün sahələri doldurun.';
+      formMessage.textContent = 'Please fill in all fields.';
       return;
     }
 
     if (!emailPattern.test(email)) {
-      formMessage.textContent = 'Zəhmət olmasa etibarlı bir email daxil edin.';
+      formMessage.textContent = 'Please enter a valid email address.';
       return;
     }
 
-    const result = await postJson('/api/messages', { name, email, message });
-    formMessage.className = `form-message ${result.success ? 'success' : 'error'}`;
-    formMessage.textContent = result.message || 'İşlem tamamlandı.';
-    contactForm.reset();
-    loadMessages();
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+    }
+
+    try {
+      const result = await postJson('/api/messages', { name, email, message });
+      formMessage.className = `form-message ${result.success ? 'success' : 'error'}`;
+      formMessage.textContent = result.message || 'Request completed.';
+      if (result.success) {
+        contactForm.reset();
+        loadMessages();
+      }
+    } catch {
+      formMessage.className = 'form-message error';
+      formMessage.textContent = 'Failed to send message. Please try again later.';
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send Message';
+      }
+    }
   });
 }
 
@@ -223,9 +364,10 @@ if (projectForm) {
     event.preventDefault();
     const formData = new FormData(projectForm);
     const payload = Object.fromEntries(formData.entries());
+
     const result = await postJson('/api/projects', payload);
     projectMessage.className = `form-message ${result.success ? 'success' : 'error'}`;
-    projectMessage.textContent = result.message || 'İşlem tamamlandı.';
+    projectMessage.textContent = result.message || 'Request completed.';
     projectForm.reset();
     loadProjects();
   });
@@ -240,15 +382,15 @@ messageList?.addEventListener('click', async (event) => {
 
   if (action === 'delete') {
     const result = await deleteJson(`/api/messages/${id}`);
-    alert(result.message || 'Mesaj silindi.');
+    alert(result.message || 'Message deleted.');
     loadMessages();
   }
 
   if (action === 'update') {
-    const updatedText = prompt('Mesajı güncelleyin:', '');
+    const updatedText = prompt('Update message:', '');
     if (!updatedText) return;
     const result = await updateJson(`/api/messages/${id}`, { message: updatedText, status: 'updated' });
-    alert(result.message || 'Mesaj güncellendi.');
+    alert(result.message || 'Message updated.');
     loadMessages();
   }
 });

@@ -2,37 +2,114 @@
 
 {% block content %}
 <section id="home" class="hero reveal">
-  <h1>Muhammad Ali Tahirzadeh</h1>
-  <p>
-    I am pursuing a career in software engineering and continuously improving my skills in software development.
-  </p>
-  <p class="typing-line">
-    Mən <span id="typingText">Developer</span>
-  </p>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      Open to new opportunities
+    </div>
+    <h1>Muhammad Ali Tahirzadeh</h1>
+    <p class="hero-subtitle">
+      Software engineer from Azerbaijan building real-world web applications with a focus on AI and backend development.
+    </p>
+    <p class="typing-line">
+      I'm a <span id="typingText">Developer</span>
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-primary">View My Projects</a>
+      <a href="#contact" class="btn-secondary">Contact Me</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-value" data-count="4">0</span>
+        <span class="stat-label">Education Programs</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value" data-count="6">0</span>
+        <span class="stat-label">Core Skills</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value" data-count="2">0</span>
+        <span class="stat-label">Active Projects</span>
+      </div>
+    </div>
+  </div>
 </section>
 
 <section id="about" class="section reveal">
-  <h2>Haqqımda</h2>
-  <p>
-    I am from Azerbaijan and I build real web projects. Currently, I am focused on artificial intelligence and backend development.
-  </p>
+  <span class="section-label">01 — About</span>
+  <h2 class="section-title">About Me</h2>
+  <div class="about-grid">
+    <p>
+      I am a motivated software engineer from Baku, Azerbaijan. I enjoy turning ideas into clean,
+      functional products and I am constantly learning new technologies to sharpen my craft.
+    </p>
+    <div class="about-highlights reveal-stagger">
+      <div class="highlight-card">
+        <strong>Focus Area</strong>
+        <span>Artificial Intelligence & Backend Development</span>
+      </div>
+      <div class="highlight-card">
+        <strong>Location</strong>
+        <span>Baku, Azerbaijan</span>
+      </div>
+      <div class="highlight-card">
+        <strong>Mindset</strong>
+        <span>Build real projects, learn every day, ship with purpose</span>
+      </div>
+    </div>
+  </div>
 </section>
 
 <section id="skills" class="section reveal">
-  <h2>Bacarıqlarım</h2>
-  <ul class="skills-list">
-    <li>HTML</li>
-    <li>CSS</li>
-    <li>JavaScript</li>
-    <li>UI/UX</li>
-    <li>Artificial Intelligence</li>
-    <li>SQL</li>
-  </ul>
+  <span class="section-label">02 — Skills</span>
+  <h2 class="section-title">Technical Skills</h2>
+  <p class="section-intro">Technologies and tools I use to design, build, and ship modern applications.</p>
+
+  <div class="skills-grid reveal-stagger">
+    <div class="skill-item" data-level="92">
+      <div class="skill-header"><span>HTML & CSS</span><span class="skill-percent">92%</span></div>
+      <div class="skill-bar"><div class="skill-fill"></div></div>
+    </div>
+    <div class="skill-item" data-level="85">
+      <div class="skill-header"><span>JavaScript</span><span class="skill-percent">85%</span></div>
+      <div class="skill-bar"><div class="skill-fill"></div></div>
+    </div>
+    <div class="skill-item" data-level="78">
+      <div class="skill-header"><span>Python / Flask</span><span class="skill-percent">78%</span></div>
+      <div class="skill-bar"><div class="skill-fill"></div></div>
+    </div>
+    <div class="skill-item" data-level="80">
+      <div class="skill-header"><span>SQL & Databases</span><span class="skill-percent">80%</span></div>
+      <div class="skill-bar"><div class="skill-fill"></div></div>
+    </div>
+    <div class="skill-item" data-level="75">
+      <div class="skill-header"><span>UI / UX Design</span><span class="skill-percent">75%</span></div>
+      <div class="skill-bar"><div class="skill-fill"></div></div>
+    </div>
+    <div class="skill-item" data-level="70">
+      <div class="skill-header"><span>Artificial Intelligence</span><span class="skill-percent">70%</span></div>
+      <div class="skill-bar"><div class="skill-fill"></div></div>
+    </div>
+  </div>
+
+  <div class="skills-tags">
+    <span class="skill-tag">HTML</span>
+    <span class="skill-tag">CSS</span>
+    <span class="skill-tag">JavaScript</span>
+    <span class="skill-tag">Flask</span>
+    <span class="skill-tag">SQLite</span>
+    <span class="skill-tag">Git</span>
+    <span class="skill-tag">REST APIs</span>
+    <span class="skill-tag">Responsive Design</span>
+  </div>
 </section>
 
 <section id="education" class="section reveal">
-  <h2>Təhsilim</h2>
-  <div class="education-grid">
+  <span class="section-label">03 — Education</span>
+  <h2 class="section-title">Education & Training</h2>
+  <p class="section-intro">Academic background and professional programs that shaped my engineering journey.</p>
+
+  <div class="education-grid reveal-stagger">
     <div class="education-card">
       <img src="{{ url_for('static', filename='logos/UNEC-logo-ENG-.png') }}" alt="UNEC Logo" />
       <h4>University of Economics</h4>
@@ -41,7 +118,7 @@
     <div class="education-card">
       <img src="{{ url_for('static', filename='logos/Al Mustafa University.jpg') }}" alt="Al Mustafa International University Logo" />
       <h4>Al Mustafa University</h4>
-      <p>Quran & Hadith sciences, 2024–2027</p>
+      <p>Quran & Hadith Sciences, 2024–2027</p>
     </div>
     <div class="education-card">
       <img src="{{ url_for('static', filename='logos/codersazerbaijan_logo.jpg') }}" alt="Coders Azerbaijan Logo" />
@@ -57,40 +134,77 @@
 </section>
 
 <section id="projects" class="section reveal">
-  <h2>Layihələrim</h2>
-  <ul class="projects-list" id="projectList">
+  <span class="section-label">04 — Projects</span>
+  <h2 class="section-title">Featured Projects</h2>
+  <p class="section-intro">A selection of projects that showcase my approach to building practical software.</p>
+
+  <div class="projects-grid" id="projectList">
     {% for project in projects %}
-    <li>
-      <a href="{{ url_for('project_detail', project_id=project.id) }}">{{ project.title }}</a>
-    </li>
+    <a class="project-card" href="{{ url_for('project_detail', project_id=project.id) }}">
+      <div class="project-icon">{{ project.title[0] }}</div>
+      <h3>{{ project.title }}</h3>
+      <p>{{ project.summary }}</p>
+      <span class="project-link">View details →</span>
+    </a>
     {% endfor %}
-  </ul>
+  </div>
 
   <div class="admin-panel">
-    <h3>Proje əlavə / idarə et</h3>
+    <h3>Manage Projects</h3>
     <form id="projectForm" class="inline-form">
-      <input type="text" name="title" placeholder="Proje adı" required />
-      <input type="text" name="summary" placeholder="Qısa açıqlama" required />
-      <textarea name="description" placeholder="Detay" required></textarea>
-      <button type="submit">Proje əlavə et</button>
+      <input type="text" name="title" placeholder="Project title" required />
+      <input type="text" name="summary" placeholder="Short summary" required />
+      <textarea name="description" placeholder="Full description" required></textarea>
+      <button type="submit">Add Project</button>
     </form>
     <p id="projectMessage" class="form-message" aria-live="polite"></p>
   </div>
 </section>
 
 <section id="contact" class="contact-card reveal">
-  <h2>Əlaqə</h2>
-  <form id="contactForm">
-    <input placeholder="Adınızı daxil edin" type="text" name="name" />
-    <input placeholder="Emailinizi daxil edin" type="email" name="email" />
-    <textarea placeholder="Mesajınızı daxil edin" name="message"></textarea>
-    <button type="submit">Göndər</button>
-    <p id="formMessage" class="form-message" aria-live="polite"></p>
-  </form>
+  <span class="section-label">05 — Contact</span>
+  <h2 class="section-title">Get In Touch</h2>
+  <p class="section-intro">Have a question or want to work together? Send me a message and I'll get back to you.</p>
+
+  <div class="contact-layout">
+    <div class="contact-info">
+      <div class="contact-item">
+        <div class="contact-item-icon">✉</div>
+        <div>
+          <strong>Email</strong><br />
+          <a href="mailto:muhammadali.tahirzadeh@gmail.com">muhammadali.tahirzadeh@gmail.com</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">in</div>
+        <div>
+          <strong>LinkedIn</strong><br />
+          <a href="https://www.linkedin.com/in/muhammad-ali-tahirzadeh" target="_blank" rel="noopener noreferrer">muhammad-ali-tahirzadeh</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">⌘</div>
+        <div>
+          <strong>GitHub</strong><br />
+          <a href="https://github.com/MuhammadAliTahirzadeh" target="_blank" rel="noopener noreferrer">MuhammadAliTahirzadeh</a>
+        </div>
+      </div>
+    </div>
+
+    <form id="contactForm">
+      <input placeholder="Your name" type="text" name="name" required />
+      <input placeholder="Your email" type="email" name="email" required />
+      <textarea placeholder="Your message" name="message" required></textarea>
+      <button type="submit" id="submitBtn">Send Message</button>
+      <p id="formMessage" class="form-message" aria-live="polite"></p>
+    </form>
+  </div>
 </section>
 
 <section id="messages" class="section reveal">
-  <h2>Mesajlar</h2>
+  <span class="section-label">06 — Inbox</span>
+  <h2 class="section-title">Messages</h2>
+  <p class="section-intro">Messages received through the contact form.</p>
   <div id="messageList" class="message-list"></div>
 </section>
 {% endblock %}

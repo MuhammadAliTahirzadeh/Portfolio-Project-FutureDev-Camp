@@ -3,65 +3,142 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Şəxsi Portfolio</title>
+    <meta name="description" content="Personal portfolio of Muhammad Ali Tahirzadeh — Software Engineer from Azerbaijan." />
+    <title>Muhammad Ali Tahirzadeh | Portfolio</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="scroll-progress" id="scrollProgress"></div>
 
-    <nav class="navbar">
+    <nav class="navbar" id="navbar">
       <a class="brand" href="#home">Muhammad Ali Tahirzadeh</a>
 
       <div class="nav-links">
-        <a href="#home">Ana Səhifə</a>
-        <a href="#about">Haqqımda</a>
-        <a href="#skills">Bacarıqlar</a>
-        <a href="#education">Təhsil</a>
-        <a href="#projects">Layihələrim</a>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#education">Education</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
       </div>
 
       <div class="nav-actions">
-        <a href="#contact" class="contact-btn">Əlaqə</a>
+        <a href="#contact" class="contact-btn">Get in Touch</a>
         <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch theme">🌙</button>
         <button class="nav-toggle" id="navToggle" type="button" aria-label="Toggle navigation">☰</button>
       </div>
     </nav>
 
-    <div class="container">
+    <main class="container">
       <section id="home" class="hero reveal">
-        <h1>Muhammad Ali Tahirzadeh</h1>
-        <p>
-          I am pursuing a career in software engineering and continuously
-          improving my skills in software development.
-        </p>
-        <p class="typing-line">
-          Mən <span id="typingText">Developer</span>
-        </p>
+        <div class="hero-content">
+          <div class="hero-badge">
+            <span class="dot"></span>
+            Open to new opportunities
+          </div>
+          <h1>Muhammad Ali Tahirzadeh</h1>
+          <p class="hero-subtitle">
+            Software engineer from Azerbaijan building real-world web applications with a focus on AI and backend development.
+          </p>
+          <p class="typing-line">
+            I'm a <span id="typingText">Developer</span>
+          </p>
+          <div class="hero-actions">
+            <a href="#projects" class="btn-primary">View My Projects</a>
+            <a href="#contact" class="btn-secondary">Contact Me</a>
+          </div>
+          <div class="hero-stats">
+            <div class="stat-item">
+              <span class="stat-value" data-count="4">0</span>
+              <span class="stat-label">Education Programs</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value" data-count="6">0</span>
+              <span class="stat-label">Core Skills</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value" data-count="2">0</span>
+              <span class="stat-label">Active Projects</span>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section id="about" class="section reveal">
-        <h2>Haqqımda</h2>
-        <p>
-          I am from Azerbaijan and I build real web projects. Currently,
-          I am focused on artificial intelligence and backend development.
-        </p>
+        <span class="section-label">01 — About</span>
+        <h2 class="section-title">About Me</h2>
+        <div class="about-grid">
+          <p>
+            I am a motivated software engineer from Baku, Azerbaijan. I enjoy turning ideas into clean,
+            functional products and I am constantly learning new technologies to sharpen my craft.
+          </p>
+          <div class="about-highlights reveal-stagger">
+            <div class="highlight-card">
+              <strong>Focus Area</strong>
+              <span>Artificial Intelligence & Backend Development</span>
+            </div>
+            <div class="highlight-card">
+              <strong>Location</strong>
+              <span>Baku, Azerbaijan</span>
+            </div>
+            <div class="highlight-card">
+              <strong>Mindset</strong>
+              <span>Build real projects, learn every day, ship with purpose</span>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section id="skills" class="section reveal">
-        <h2>Bacarıqlarım</h2>
-        <ul class="skills-list">
-          <li>HTML</li>
-          <li>CSS</li>
-          <li>JavaScript</li>
-          <li>UI/UX</li>
-          <li>Artificial Intelligence</li>
-          <li>SQL</li>
-        </ul>
+        <span class="section-label">02 — Skills</span>
+        <h2 class="section-title">Technical Skills</h2>
+        <p class="section-intro">Technologies and tools I use to design, build, and ship modern applications.</p>
+
+        <div class="skills-grid reveal-stagger">
+          <div class="skill-item" data-level="92">
+            <div class="skill-header"><span>HTML & CSS</span><span class="skill-percent">92%</span></div>
+            <div class="skill-bar"><div class="skill-fill"></div></div>
+          </div>
+          <div class="skill-item" data-level="85">
+            <div class="skill-header"><span>JavaScript</span><span class="skill-percent">85%</span></div>
+            <div class="skill-bar"><div class="skill-fill"></div></div>
+          </div>
+          <div class="skill-item" data-level="78">
+            <div class="skill-header"><span>Python / Flask</span><span class="skill-percent">78%</span></div>
+            <div class="skill-bar"><div class="skill-fill"></div></div>
+          </div>
+          <div class="skill-item" data-level="80">
+            <div class="skill-header"><span>SQL & Databases</span><span class="skill-percent">80%</span></div>
+            <div class="skill-bar"><div class="skill-fill"></div></div>
+          </div>
+          <div class="skill-item" data-level="75">
+            <div class="skill-header"><span>UI / UX Design</span><span class="skill-percent">75%</span></div>
+            <div class="skill-bar"><div class="skill-fill"></div></div>
+          </div>
+          <div class="skill-item" data-level="70">
+            <div class="skill-header"><span>Artificial Intelligence</span><span class="skill-percent">70%</span></div>
+            <div class="skill-bar"><div class="skill-fill"></div></div>
+          </div>
+        </div>
+
+        <div class="skills-tags">
+          <span class="skill-tag">HTML</span>
+          <span class="skill-tag">CSS</span>
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">Flask</span>
+          <span class="skill-tag">SQLite</span>
+          <span class="skill-tag">Git</span>
+          <span class="skill-tag">REST APIs</span>
+          <span class="skill-tag">Responsive Design</span>
+        </div>
       </section>
 
       <section id="education" class="section reveal">
-        <h2>Təhsilim</h2>
-        <div class="education-grid">
+        <span class="section-label">03 — Education</span>
+        <h2 class="section-title">Education & Training</h2>
+        <p class="section-intro">Academic background and professional programs that shaped my engineering journey.</p>
+
+        <div class="education-grid reveal-stagger">
           <div class="education-card">
             <img src="Logos/UNEC-logo-ENG-.png" alt="UNEC Logo" />
             <h4>University of Economics</h4>
@@ -70,7 +147,7 @@
           <div class="education-card">
             <img src="Logos/Al Mustafa University.jpg" alt="Al Mustafa International University Logo" />
             <h4>Al Mustafa University</h4>
-            <p>Quran & Hadith sciences, 2024–2027</p>
+            <p>Quran & Hadith Sciences, 2024–2027</p>
           </div>
           <div class="education-card">
             <img src="Logos/codersazerbaijan_logo.jpg" alt="Coders Azerbaijan Logo" />
@@ -86,26 +163,93 @@
       </section>
 
       <section id="projects" class="section reveal">
-        <h2>Layihələrim</h2>
-        <ul class="projects-list">
-          <li><a href="#">Layihə 1</a></li>
-          <li><a href="#">Layihə 2</a></li>
-          <li><a href="#">Layihə 3</a></li>
-          <li><a href="#">Layihə 4</a></li>
-        </ul>
+        <span class="section-label">04 — Projects</span>
+        <h2 class="section-title">Featured Projects</h2>
+        <p class="section-intro">A selection of projects that showcase my approach to building practical software.</p>
+
+        <div class="projects-grid" id="projectList">
+          <a class="project-card" href="https://github.com/MuhammadAliTahirzadeh" target="_blank" rel="noopener noreferrer">
+            <div class="project-icon">P</div>
+            <h3>Portfolio Website</h3>
+            <p>A polished personal portfolio built with Flask, Jinja2, and modern frontend design.</p>
+            <span class="project-link">View on GitHub →</span>
+          </a>
+          <a class="project-card" href="https://github.com/MuhammadAliTahirzadeh" target="_blank" rel="noopener noreferrer">
+            <div class="project-icon">B</div>
+            <h3>Backend Application</h3>
+            <p>A Flask application demonstrating routes, REST APIs, and database integration.</p>
+            <span class="project-link">View on GitHub →</span>
+          </a>
+        </div>
       </section>
 
       <section id="contact" class="contact-card reveal">
-        <h2>Əlaqə</h2>
-        <form id="contactForm">
-          <input placeholder="Adınızı daxil edin" type="text" name="name" />
-          <input placeholder="Emailinizi daxil edin" type="email" name="email" />
-          <textarea placeholder="Mesajınızı daxil edin" name="message"></textarea>
-          <button type="submit">Göndər</button>
-          <p id="formMessage" class="form-message" aria-live="polite"></p>
-        </form>
+        <span class="section-label">05 — Contact</span>
+        <h2 class="section-title">Get In Touch</h2>
+        <p class="section-intro">Have a question or want to work together? Send me a message and I'll get back to you.</p>
+
+        <div class="contact-layout">
+          <div class="contact-info">
+            <div class="contact-item">
+              <div class="contact-item-icon">✉</div>
+              <div>
+                <strong>Email</strong><br />
+                <a href="mailto:muhammadali.tahirzadeh@gmail.com">muhammadali.tahirzadeh@gmail.com</a>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-item-icon">in</div>
+              <div>
+                <strong>LinkedIn</strong><br />
+                <a href="https://www.linkedin.com/in/muhammad-ali-tahirzadeh" target="_blank" rel="noopener noreferrer">muhammad-ali-tahirzadeh</a>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-item-icon">⌘</div>
+              <div>
+                <strong>GitHub</strong><br />
+                <a href="https://github.com/MuhammadAliTahirzadeh" target="_blank" rel="noopener noreferrer">MuhammadAliTahirzadeh</a>
+              </div>
+            </div>
+          </div>
+
+          <form id="contactForm">
+            <input placeholder="Your name" type="text" name="name" required />
+            <input placeholder="Your email" type="email" name="email" required />
+            <textarea placeholder="Your message" name="message" required></textarea>
+            <button type="submit" id="submitBtn">Send Message</button>
+            <p id="formMessage" class="form-message" aria-live="polite"></p>
+          </form>
+        </div>
       </section>
-    </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <p class="footer-name">Muhammad Ali Tahirzadeh</p>
+          <p class="footer-tagline">Software Engineer · Always learning</p>
+        </div>
+
+        <div class="footer-social">
+          <a href="https://github.com/MuhammadAliTahirzadeh" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="social-link">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0.5C5.65 0.5 0.5 5.65 0.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.87-1.54-3.87-1.54-.53-1.35-1.29-1.71-1.29-1.71-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.78 2.73 1.27 3.4.97.11-.76.41-1.27.74-1.56-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.47.11-3.06 0 0 .96-.31 3.15 1.18a10.9 10.9 0 0 1 2.87-.39c.97 0 1.94.13 2.87.39 2.19-1.49 3.14-1.18 3.14-1.18.62 1.59.23 2.77.11 3.06.74.81 1.18 1.84 1.18 3.1 0 4.43-2.7 5.41-5.27 5.69.42.36.79 1.08.79 2.18 0 1.57-.01 2.84-.01 3.23 0 .31.21.68.8.56A10.99 10.99 0 0 0 23.5 12C23.5 5.65 18.35 0.5 12 0.5Z"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/muhammad-ali-tahirzadeh" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="social-link">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.26 2.37 4.26 5.45v6.29ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45ZM22.23 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.72V1.72C24 .77 23.21 0 22.23 0Z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/muhammadali_tahirzadeh/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-link">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.22.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.05.41 2.22.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.22a3.73 3.73 0 0 1-.9 1.38 3.73 3.73 0 0 1-1.38.9c-.42.16-1.05.36-2.22.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.22-.41a3.73 3.73 0 0 1-1.38-.9 3.73 3.73 0 0 1-.9-1.38c-.16-.42-.36-1.05-.41-2.22C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.22.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.05-.36 2.22-.41C8.42 2.17 8.8 2.16 12 2.16ZM12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.15.63a6.1 6.1 0 0 0-2.2 1.43A6.1 6.1 0 0 0 .52 4.15C.22 4.9.02 5.78-.04 7.05-.1 8.33-.11 8.74-.11 12c0 3.26.01 3.67.07 4.95.06 1.27.26 2.15.56 2.9a6.1 6.1 0 0 0 1.43 2.2 6.1 6.1 0 0 0 2.2 1.43c.75.3 1.63.5 2.9.56 1.28.06 1.69.07 4.95.07s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.9-.56a6.1 6.1 0 0 0 2.2-1.43 6.1 6.1 0 0 0 1.43-2.2c.3-.75.5-1.63.56-2.9.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.9a6.1 6.1 0 0 0-1.43-2.2A6.1 6.1 0 0 0 19.85.63C19.1.33 18.22.13 16.95.07 15.67.01 15.26 0 12 0Zm0 5.84A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84Zm0 10.16A4 4 0 1 1 16 12a4 4 0 0 1-4 4Zm6.41-11.85a1.44 1.44 0 1 0-1.44 1.44 1.44 1.44 0 0 0 1.44-1.44Z"/></svg>
+          </a>
+        </div>
+
+        <p class="footer-copy">
+          &copy; <span id="footerYear"></span> Muhammad Ali Tahirzadeh. All rights reserved.
+        </p>
+      </div>
+    </footer>
+
+    <button class="back-to-top" id="backToTop" type="button" aria-label="Back to top">↑</button>
 
     <script src="script.js"></script>
   </body>

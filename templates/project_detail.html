@@ -2,10 +2,18 @@
 
 {% block content %}
 <section class="section reveal">
-  <h2>{{ project.title }}</h2>
-  <p>{{ project.summary }}</p>
+  <div class="project-detail-header">
+    <span class="section-label">Project</span>
+    <h2 class="section-title">{{ project.title }}</h2>
+    <div class="project-detail-meta">
+      <span class="meta-badge">Portfolio</span>
+      <span class="meta-badge">{{ project.created_at }}</span>
+    </div>
+  </div>
+
+  <p><strong>Summary:</strong> {{ project.summary }}</p>
   <p>{{ project.description }}</p>
-  <p>Route source: {{ source }}</p>
-  <a class="contact-btn" href="{{ url_for('home') }}">Back to portfolio</a>
+
+  <a class="btn-primary" href="{{ url_for('home') }}#projects" style="margin-top: 20px; width: fit-content;">← Back to Projects</a>
 </section>
 {% endblock %}
