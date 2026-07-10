@@ -1,6 +1,7 @@
 import os
 import smtplib
 from email.message import EmailMessage
+from pathlib import Path
 
 from flask import Flask, abort, jsonify, make_response, render_template, request
 
@@ -21,6 +22,24 @@ from portfolio_db import (
 app = Flask(__name__, template_folder="templates", static_folder="static")
 init_db()
 seed_projects()
+
+
+def load_env_file() -> None:
+    env_path = Path(__file__).resolve().parent / ".env"
+    if not env_path.exists():
+        return
+
+    for line in env_path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        key = key.strip()
+        value = value.strip().strip('"').strip("'")
+        os.environ.setdefault(key, value)
+
+
+load_env_file()
 
 
 def get_mail_config():
@@ -110,7 +129,16 @@ def messages_api():
     try:
         send_contact_email(name, email, message_text)
     except Exception as exc:
-        return jsonify({"success": False, "message": f"Message saved but email delivery failed: {exc}"}), 500
+        return jsonify(
+            {
+                "success": False,
+                "message": (
+                    "Message was saved, but email delivery failed. "
+                    "Check your Gmail app password and MAIL_USERNAME/MAIL_PASSWORD settings."
+                ),
+                "error": str(exc),
+            }
+        ), 500
 
     return jsonify({"success": True, "message": "Message saved and sent.", "id": message_id})
 
