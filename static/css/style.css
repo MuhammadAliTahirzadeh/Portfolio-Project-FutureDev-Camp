@@ -186,6 +186,15 @@ body.dark .education-card p {
   color: #cbd5e1;
 }
 
+body.dark .education-card {
+  background-color: #111827;
+  border-color: rgba(125, 211, 252, 0.2);
+}
+
+body.dark .education-card h4 {
+  color: #f8fafc;
+}
+
 body.dark .skills-list li,
 body.dark .projects-list li {
   background-color: rgba(56, 189, 248, 0.16);
