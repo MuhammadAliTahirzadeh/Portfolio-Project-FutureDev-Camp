@@ -124,11 +124,16 @@ def messages_api():
     if not all([name, email, message_text]):
         return jsonify({"success": False, "message": "Please fill all fields."}), 400
 
-    message_id = create_message(name, email, message_text)
+    try:
+        message_id = create_message(name, email, message_text)
+    except Exception:
+        app.logger.exception("Failed to save contact message")
+        return jsonify({"success": False, "message": "Could not save your message. Please try again later."}), 500
 
     try:
         send_contact_email(name, email, message_text)
     except Exception as exc:
+        app.logger.exception("Failed to send contact email")
         return jsonify(
             {
                 "success": False,
@@ -151,10 +156,12 @@ def message_detail_api(message_id: int):
         status = (data.get("status") or "new").strip()
         if not text:
             return jsonify({"success": False, "message": "Message text is required."}), 400
-        update_message(message_id, text, status)
+        if not update_message(message_id, text, status):
+            return jsonify({"success": False, "message": "Message not found."}), 404
         return jsonify({"success": True, "message": "Message updated."})
 
-    delete_message(message_id)
+    if not delete_message(message_id):
+        return jsonify({"success": False, "message": "Message not found."}), 404
     return jsonify({"success": True, "message": "Message deleted."})
 
 
@@ -171,7 +178,11 @@ def projects_api():
     if not all([title, summary, description]):
         return jsonify({"success": False, "message": "All project fields are required."}), 400
 
-    project_id = create_project(title, summary, description)
+    try:
+        project_id = create_project(title, summary, description)
+    except Exception:
+        app.logger.exception("Failed to create project")
+        return jsonify({"success": False, "message": "Could not add the project. Please try again later."}), 500
     return jsonify({"success": True, "message": "Project added.", "id": project_id})
 
 
@@ -184,10 +195,12 @@ def project_detail_api(project_id: int):
         description = (data.get("description") or "").strip()
         if not all([title, summary, description]):
             return jsonify({"success": False, "message": "All project fields are required."}), 400
-        update_project(project_id, title, summary, description)
+        if not update_project(project_id, title, summary, description):
+            return jsonify({"success": False, "message": "Project not found."}), 404
         return jsonify({"success": True, "message": "Project updated."})
 
-    delete_project(project_id)
+    if not delete_project(project_id):
+        return jsonify({"success": False, "message": "Project not found."}), 404
     return jsonify({"success": True, "message": "Project deleted."})
 
 
