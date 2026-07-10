@@ -1,14 +1,12 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 16px;
   line-height: 1.7;
   color: #1f2937;
   background-color: #f4f7fb;
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body.dark {
@@ -90,7 +88,7 @@ body.dark .navbar {
 }
 
 .navbar a::after {
-  content: "";
+  content: '';
   position: absolute;
   bottom: -4px;
   left: 0;
@@ -176,59 +174,6 @@ body.dark .section,
 body.dark .contact-card {
   background-color: #111827;
   box-shadow: 0 10px 30px rgba(2, 6, 23, 0.4);
-}
-
-body.dark h2,
-body.dark h3 {
-  color: #f8fafc;
-}
-
-body.dark p,
-body.dark .education-card p {
-  color: #cbd5e1;
-}
-
-body.dark .skills-list li,
-body.dark .projects-list li {
-  background-color: rgba(56, 189, 248, 0.16);
-  color: #f8fafc;
-  border: 1px solid rgba(125, 211, 252, 0.25);
-}
-
-body.dark .projects-list a {
-  color: #7dd3fc;
-}
-
-body.dark table,
-body.dark th,
-body.dark td {
-  border-color: #334155;
-  color: #e2e8f0;
-}
-
-body.dark th {
-  background-color: #1e293b;
-}
-
-body.dark .education-card {
-  background-color: #1f2937;
-  border-color: #334155;
-}
-
-body.dark .education-card h4 {
-  color: #f8fafc;
-}
-
-body.dark input,
-body.dark textarea {
-  background-color: #0f172a;
-  color: #f8fafc;
-  border-color: #475569;
-}
-
-body.dark input::placeholder,
-body.dark textarea::placeholder {
-  color: #94a3b8;
 }
 
 .reveal {
