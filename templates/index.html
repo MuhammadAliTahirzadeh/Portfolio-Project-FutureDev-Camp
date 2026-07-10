@@ -149,7 +149,7 @@
     {% endfor %}
   </div>
 
-  <div class="admin-panel">
+  <div class="admin-panel" hidden>
     <h3>Manage Projects</h3>
     <form id="projectForm" class="inline-form">
       <input type="text" name="title" placeholder="Project title" required />
@@ -201,7 +201,7 @@
   </div>
 </section>
 
-<section id="messages" class="section reveal">
+<section id="messages" class="section reveal" hidden>
   <span class="section-label">06 — Inbox</span>
   <h2 class="section-title">Messages</h2>
   <p class="section-intro">Messages received through the contact form.</p>

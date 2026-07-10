@@ -215,10 +215,23 @@ function typeLoop() {
 
 typeLoop();
 
+function getAdminToken() {
+  return localStorage.getItem('admin-token') || '';
+}
+
+function isAdmin() {
+  return Boolean(getAdminToken());
+}
+
+function adminHeaders() {
+  const token = getAdminToken();
+  return token ? { 'X-Admin-Token': token } : {};
+}
+
 async function postJson(url, data) {
   const response = await fetch(url, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...adminHeaders() },
     body: JSON.stringify(data),
   });
   return response.json();
@@ -227,14 +240,14 @@ async function postJson(url, data) {
 async function updateJson(url, data, method = 'PUT') {
   const response = await fetch(url, {
     method,
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...adminHeaders() },
     body: JSON.stringify(data),
   });
   return response.json();
 }
 
 async function deleteJson(url) {
-  const response = await fetch(url, { method: 'DELETE' });
+  const response = await fetch(url, { method: 'DELETE', headers: adminHeaders() });
   return response.json();
 }
 
@@ -292,14 +305,18 @@ function renderMessages(messages) {
 }
 
 async function loadMessages() {
+  if (!messageList || !isAdmin()) return;
+
   try {
-    const response = await fetch('/api/messages');
+    const response = await fetch('/api/messages', { headers: adminHeaders() });
+    if (!response.ok) {
+      messageList.innerHTML = '<div class="empty-state">Unauthorized. Set a valid admin token to view messages.</div>';
+      return;
+    }
     const messages = await response.json();
     renderMessages(messages);
   } catch {
-    if (messageList) {
-      messageList.innerHTML = '<div class="empty-state">Unable to load messages.</div>';
-    }
+    messageList.innerHTML = '<div class="empty-state">Unable to load messages.</div>';
   }
 }
 
@@ -395,5 +412,13 @@ messageList?.addEventListener('click', async (event) => {
   }
 });
 
+function applyAdminVisibility() {
+  const adminSections = document.querySelectorAll('.admin-panel, #messages');
+  adminSections.forEach((section) => {
+    section.hidden = !isAdmin();
+  });
+}
+
+applyAdminVisibility();
 loadProjects();
 loadMessages();
