@@ -102,7 +102,7 @@ function typeLoop() {
 
 typeLoop();
 
-contactForm.addEventListener('submit', (event) => {
+contactForm.addEventListener('submit', async (event) => {
   event.preventDefault();
 
   const name = contactForm.querySelector('input[type="text"]').value.trim();
@@ -122,7 +122,21 @@ contactForm.addEventListener('submit', (event) => {
     return;
   }
 
-  formMessage.className = 'form-message success';
-  formMessage.textContent = 'Mesajınız uğurla göndərildi. Tezliklə sizinlə əlaqə saxlayacağam.';
-  contactForm.reset();
+  try {
+    const response = await fetch('/api/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, message }),
+    });
+    const result = await response.json();
+
+    formMessage.className = `form-message ${result.success ? 'success' : 'error'}`;
+    formMessage.textContent = result.message || 'İşlem tamamlandı.';
+    if (result.success) {
+      contactForm.reset();
+    }
+  } catch (error) {
+    formMessage.className = 'form-message error';
+    formMessage.textContent = 'Mesaj göndərilmədi. Sonra yenidən cəhd edin.';
+  }
 });

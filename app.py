@@ -1,3 +1,7 @@
+import os
+import smtplib
+from email.message import EmailMessage
+
 from flask import Flask, abort, jsonify, make_response, render_template, request
 
 from portfolio_db import (
@@ -17,6 +21,40 @@ from portfolio_db import (
 app = Flask(__name__, template_folder="templates", static_folder="static")
 init_db()
 seed_projects()
+
+
+def get_mail_config():
+    return {
+        "server": os.getenv("MAIL_SERVER", "smtp.gmail.com"),
+        "port": int(os.getenv("MAIL_PORT", "587")),
+        "username": os.getenv("MAIL_USERNAME"),
+        "password": os.getenv("MAIL_PASSWORD"),
+        "recipient": os.getenv("MAIL_RECIPIENT", "muhammadali.tahirzadeh@gmail.com"),
+        "use_tls": os.getenv("MAIL_USE_TLS", "true").lower() in {"1", "true", "yes", "on"},
+    }
+
+
+def send_contact_email(name: str, sender_email: str, message_text: str) -> None:
+    mail_config = get_mail_config()
+
+    if not mail_config["username"] or not mail_config["password"]:
+        raise RuntimeError(
+            "Email credentials are not configured. Set MAIL_USERNAME and MAIL_PASSWORD environment variables."
+        )
+
+    message = EmailMessage()
+    message["Subject"] = f"Portfolio contact from {name}"
+    message["From"] = mail_config["username"]
+    message["To"] = mail_config["recipient"]
+    message.set_content(
+        f"Name: {name}\nEmail: {sender_email}\n\nMessage:\n{message_text}"
+    )
+
+    with smtplib.SMTP(mail_config["server"], mail_config["port"]) as server:
+        if mail_config["use_tls"]:
+            server.starttls()
+        server.login(mail_config["username"], mail_config["password"])
+        server.send_message(message)
 
 
 @app.route("/")
@@ -68,7 +106,13 @@ def messages_api():
         return jsonify({"success": False, "message": "Please fill all fields."}), 400
 
     message_id = create_message(name, email, message_text)
-    return jsonify({"success": True, "message": "Message saved.", "id": message_id})
+
+    try:
+        send_contact_email(name, email, message_text)
+    except Exception as exc:
+        return jsonify({"success": False, "message": f"Message saved but email delivery failed: {exc}"}), 500
+
+    return jsonify({"success": True, "message": "Message saved and sent.", "id": message_id})
 
 
 @app.route("/api/messages/<int:message_id>", methods=["PUT", "DELETE"])
