@@ -1,9 +1,9 @@
 import os
-import smtplib
-from email.message import EmailMessage
 from pathlib import Path
 
+import httpx
 from flask import Flask, abort, jsonify, make_response, render_template, request
+from supabase import create_client, Client
 
 from portfolio_db import (
     create_message,
@@ -42,38 +42,39 @@ def load_env_file() -> None:
 load_env_file()
 
 
-def get_mail_config():
-    return {
-        "server": os.getenv("MAIL_SERVER", "smtp.gmail.com"),
-        "port": int(os.getenv("MAIL_PORT", "587")),
-        "username": os.getenv("MAIL_USERNAME"),
-        "password": os.getenv("MAIL_PASSWORD"),
-        "recipient": os.getenv("MAIL_RECIPIENT", "muhammadali.tahirzadeh@gmail.com"),
-        "use_tls": os.getenv("MAIL_USE_TLS", "true").lower() in {"1", "true", "yes", "on"},
-    }
+def get_supabase_client() -> Client:
+    supabase_url = os.getenv("SUPABASE_URL")
+    supabase_key = os.getenv("SUPABASE_ANON_KEY")
+    if not supabase_url or not supabase_key:
+        raise RuntimeError("Supabase credentials are not configured. Set SUPABASE_URL and SUPABASE_ANON_KEY environment variables.")
+    return create_client(supabase_url, supabase_key)
 
 
 def send_contact_email(name: str, sender_email: str, message_text: str) -> None:
-    mail_config = get_mail_config()
-
-    if not mail_config["username"] or not mail_config["password"]:
-        raise RuntimeError(
-            "Email credentials are not configured. Set MAIL_USERNAME and MAIL_PASSWORD environment variables."
-        )
-
-    message = EmailMessage()
-    message["Subject"] = f"Portfolio contact from {name}"
-    message["From"] = mail_config["username"]
-    message["To"] = mail_config["recipient"]
-    message.set_content(
-        f"Name: {name}\nEmail: {sender_email}\n\nMessage:\n{message_text}"
-    )
-
-    with smtplib.SMTP(mail_config["server"], mail_config["port"]) as server:
-        if mail_config["use_tls"]:
-            server.starttls()
-        server.login(mail_config["username"], mail_config["password"])
-        server.send_message(message)
+    supabase_url = os.getenv("SUPABASE_URL")
+    supabase_key = os.getenv("SUPABASE_ANON_KEY")
+    recipient = os.getenv("MAIL_RECIPIENT", "muhammadali.tahirzadeh.uni@gmail.com")
+    
+    # Use direct HTTP call to Supabase Edge Function
+    function_url = f"{supabase_url}/functions/v1/send-email"
+    headers = {
+        "Authorization": f"Bearer {supabase_key}",
+        "Content-Type": "application/json"
+    }
+    payload = {
+        "name": name,
+        "sender_email": sender_email,
+        "message_text": message_text,
+        "recipient": recipient
+    }
+    
+    response = httpx.post(function_url, headers=headers, json=payload)
+    
+    if response.status_code != 200:
+        error_data = response.json() if response.content else {}
+        raise RuntimeError(f"Edge Function failed: {error_data.get('error', 'Unknown error')}")
+        
+    return response.json()
 
 
 @app.route("/")
@@ -116,7 +117,9 @@ def messages_api():
     if request.method == "GET":
         return jsonify(get_messages())
 
-    data = request.get_json(silent=True) or {}
+    data = request.get_json(silent=True)
+    if not data or not isinstance(data, dict):
+        data = {}
     name = (data.get("name") or "").strip()
     email = (data.get("email") or "").strip()
     message_text = (data.get("message") or "").strip()
@@ -134,7 +137,7 @@ def messages_api():
                 "success": False,
                 "message": (
                     "Message was saved, but email delivery failed. "
-                    "Check your Gmail app password and MAIL_USERNAME/MAIL_PASSWORD settings."
+                    "Check your Supabase Edge Function and RESEND_API_KEY settings."
                 ),
                 "error": str(exc),
             }

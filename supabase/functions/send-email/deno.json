@@ -1,0 +1,7 @@
+{
+  "name": "send-email",
+  "version": "1.0.0",
+  "imports": {
+    "resend": "https://esm.sh/resend@2.0.0"
+  }
+}
